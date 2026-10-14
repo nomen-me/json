@@ -1,0 +1,97 @@
+{
+  "arquivo": "s_pre_uom_w6.html",
+  "backend": "SIMULADO (Ritmo/Harmonia fabricados) — NÃO é evidência do ambiente real",
+  "resultados": [
+    {
+      "teste": "U1",
+      "descricao": "Item por Unidade: quantidade 1, sem pedir peso e SEM chamada ao Ritmo",
+      "resultado": "PASS",
+      "detalhe": "carrinho=[{'c': '2001', 'q': 1, 'pesavel': False, 'p': 4.5}]; modal_peso=False; chamadas HTTP durante o lançamento=0 []"
+    },
+    {
+      "teste": "U2",
+      "descricao": "Item por Kg: abre a pesagem (peso 0,350), lança 0,350 kg × preço, SEM chamada ao Ritmo",
+      "resultado": "FAIL",
+      "detalhe": "EXCEÇÃO: Page.wait_for_selector: Timeout 8000ms exceeded."
+    },
+    {
+      "teste": "U2b",
+      "descricao": "Mesma regra pelo fallback visual do Hortifrúti: Kg pede peso; Unidade lança 1",
+      "resultado": "FAIL",
+      "detalhe": "EXCEÇÃO: Page.wait_for_selector: Timeout 8000ms exceeded."
+    },
+    {
+      "teste": "U3",
+      "descricao": "O catálogo local (IndexedDB) guarda o uom de cada produto, vindo do Ritmo",
+      "resultado": "FAIL",
+      "detalhe": "IndexedDB uom={'a': None, 'b': None, 'c': None}"
+    },
+    {
+      "teste": "U3b",
+      "descricao": "UOM que não é Kg (ex.: Nos) é tratado como unidade: quantidade 1",
+      "resultado": "PASS",
+      "detalhe": [
+        {
+          "c": "2003",
+          "q": 1,
+          "pesavel": false,
+          "p": 6.5
+        }
+      ]
+    },
+    {
+      "teste": "U4",
+      "descricao": "Alteração de UOM no Ritmo (Kg→Unidade): após sincronizar, o IndexedDB muda e a próxima venda usa a nova regra",
+      "resultado": "FAIL",
+      "detalhe": "uom após sincronizar=None; carrinho=[{'c': '2002', 'q': 1, 'pesavel': False, 'p': 9.9}]"
+    },
+    {
+      "teste": "U5",
+      "descricao": "Offline (catálogo já sincronizado): identifica item_code → IndexedDB informa o UOM → PDV executa (Kg pesa, Unidade=1), sem tentar rede",
+      "resultado": "FAIL",
+      "detalhe": "EXCEÇÃO: Page.wait_for_selector: Timeout 8000ms exceeded."
+    },
+    {
+      "teste": "U6",
+      "descricao": "Linha em Kg: botão ± abre a edição de peso decimal (não soma 1 kg); contagem de itens = 1",
+      "resultado": "FAIL",
+      "detalhe": "EXCEÇÃO: Page.fill: Timeout 8000ms exceeded."
+    },
+    {
+      "teste": "U7",
+      "descricao": "Nenhum erro de JavaScript no bloco UOM",
+      "resultado": "PASS",
+      "detalhe": []
+    },
+    {
+      "teste": "W1",
+      "descricao": "W6 devolve 501 + PENDENTE_FONTE_DE_DADOS: Panel permanece funcional, sem erro de JavaScript e sem toast de falha",
+      "resultado": "FAIL",
+      "detalhe": "toasts operador=\"Não foi possível carregar o consumo de serviços agora\""
+    },
+    {
+      "teste": "W2",
+      "descricao": "Usuário operacional vê \"Métrica em configuração\", sem 501 e sem erro técnico",
+      "resultado": "FAIL",
+      "detalhe": ""
+    },
+    {
+      "teste": "W3",
+      "descricao": "Administrador vê \"501 — PENDENTE_FONTE_DE_DADOS\" + \"Aguardando vínculo da fonte de dados de IA/Frete.\"",
+      "resultado": "FAIL",
+      "detalhe": ""
+    },
+    {
+      "teste": "W4",
+      "descricao": "Outros cards continuam funcionando (barras de CPU/RAM/Disco com valores do W5)",
+      "resultado": "PASS",
+      "detalhe": "cpu=30% ram=40% disco=20%"
+    },
+    {
+      "teste": "W5",
+      "descricao": "Regressão: quando o W6 volta a responder 200, os cards mostram os dados normalmente",
+      "resultado": "PASS",
+      "detalhe": "saldo R$ 9,00 exibido"
+    }
+  ]
+}
